@@ -23,6 +23,30 @@ function escapeHtml(str: string): string {
   return div.innerHTML;
 }
 
+interface ImageBoxOptions {
+  tag: string;
+  description: string;
+  ratio: string;
+  isLight?: boolean;
+}
+
+// Editorial Default Grey Image Box Renderer
+function renderImageBox(options: ImageBoxOptions): string {
+  const lightClass = options.isLight ? 'placeholder-image-box-light' : '';
+  return `
+    <div class="placeholder-image-box ${lightClass}" role="img" aria-label="${options.tag}: ${options.description}">
+      <svg class="placeholder-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+        <circle cx="9" cy="9" r="2"/>
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+      </svg>
+      <div class="placeholder-box-tag">${options.tag}</div>
+      <div class="placeholder-box-desc">${options.description}</div>
+      <div class="placeholder-box-spec">${options.ratio} · ASSET PENDING</div>
+    </div>
+  `;
+}
+
 // Generate prefilled WhatsApp Link
 function getWhatsAppLink(message: string): string {
   const encoded = encodeURIComponent(message);
@@ -144,15 +168,11 @@ function renderHero(): string {
 
           <div class="hero-media-wrapper">
             <div class="hero-image-frame">
-              <img 
-                src="/images/hero.jpg" 
-                alt="Explosive athletic dancer captured mid-air at AS Dance Studio" 
-                class="hero-image"
-                width="800"
-                height="1000"
-                fetchpriority="high"
-                loading="eager"
-              />
+              ${renderImageBox({
+                tag: 'HERO STUDIO MEDIA',
+                description: 'Kinetic studio dancer captured at peak movement',
+                ratio: 'ASPECT RATIO 4:5 · MIN 1200×1500PX'
+              })}
               <div class="hero-watermark">TRAIN.<br>CREATE.<br>PERFORM.</div>
               <div class="hero-stamp-badge">KPHB PHASE 9</div>
             </div>
@@ -171,14 +191,12 @@ function renderChoreographer(): string {
         <div class="choreographer-grid">
           <div class="choreographer-portrait-wrap">
             <div class="choreographer-image-card">
-              <img 
-                src="/images/arjun.jpg" 
-                alt="Master Arjun Punnani, Founder and Master Choreographer of AS Dance Studio" 
-                class="choreographer-image"
-                width="600"
-                height="800"
-                loading="lazy"
-              />
+              ${renderImageBox({
+                tag: 'CHOREOGRAPHER PORTRAIT',
+                description: 'Master Arjun Punnani Studio Portrait',
+                ratio: 'ASPECT RATIO 3:4 · MIN 1000×1333PX',
+                isLight: true
+              })}
               <div class="choreographer-badge-dock">
                 <div>
                   <h3 style="font-size: 1.4rem;">${STUDIO_DATA.founder}</h3>
@@ -312,14 +330,11 @@ function renderDanceStyles(): string {
               </div>
 
               <div class="style-row-media">
-                <img 
-                  src="${style.image}" 
-                  alt="${style.name} training at AS Dance Studio" 
-                  class="style-image"
-                  width="700"
-                  height="500"
-                  loading="lazy"
-                />
+                ${renderImageBox({
+                  tag: `${style.name}`,
+                  description: `${style.tagline}`,
+                  ratio: 'ASPECT RATIO 16:10 · MIN 1200×750PX'
+                })}
               </div>
             </article>
           `).join('')}
@@ -370,13 +385,12 @@ function renderPersonalTraining(): string {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 20px;">
-              <div style="border: 1px solid var(--color-border); overflow: hidden; aspect-ratio: 4/5; background: var(--color-surface-1);">
-                <img 
-                  src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&q=80&w=1200" 
-                  alt="Personal 1-on-1 choreography training session in studio" 
-                  style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(115%);"
-                  loading="lazy"
-                />
+              <div style="border: 1px solid var(--color-border-dark); overflow: hidden; aspect-ratio: 4/5; background: var(--color-surface-1);">
+                ${renderImageBox({
+                  tag: '1-ON-1 MASTER MENTORSHIP',
+                  description: 'Dedicated private coaching on KPHB studio floor',
+                  ratio: 'ASPECT RATIO 4:5 · MIN 1000×1250PX'
+                })}
               </div>
               <div style="padding: 16px; background-color: var(--color-surface-2); border: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center;">
                 <span class="meta-label">EXCLUSIVE SLOTS</span>
@@ -414,16 +428,14 @@ function renderGallery(): string {
               class="gallery-card ${item.aspect === 'large' ? 'gallery-card-lg' : ''}" 
               tabindex="0" 
               role="button" 
-              aria-label="View ${item.title} photograph"
+              aria-label="View ${item.title} placeholder"
               data-gallery-index="${index}"
             >
-              <img 
-                src="${item.image}" 
-                alt="${item.title} — ${item.style}" 
-                width="800"
-                height="600"
-                loading="lazy"
-              />
+              ${renderImageBox({
+                tag: item.style,
+                description: item.title,
+                ratio: item.aspect === 'large' ? 'ASPECT RATIO 16:10' : 'ASPECT RATIO 4:5'
+              })}
               <div class="gallery-card-overlay">
                 <h4 class="gallery-card-title">${item.title}</h4>
                 <p class="gallery-card-subtitle">${item.style}</p>
@@ -440,8 +452,17 @@ function renderGallery(): string {
         <button type="button" class="lightbox-close-btn" id="lightbox-close" aria-label="Close lightbox">
           ✕ CLOSE [ESC]
         </button>
-        <div class="lightbox-img-wrap">
-          <img id="lightbox-img" src="" alt="Enlarged movement gallery photograph" />
+        <div class="lightbox-img-wrap" style="padding: 32px 20px;">
+          <div class="placeholder-image-box" style="min-height: 360px; max-width: 680px; margin: 0 auto;">
+            <svg class="placeholder-box-icon" style="width: 40px; height: 40px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+              <circle cx="9" cy="9" r="2"/>
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+            </svg>
+            <div id="lightbox-placeholder-tag" class="placeholder-box-tag" style="font-size: 0.9rem;">MOVEMENT ARCHIVE</div>
+            <div id="lightbox-placeholder-desc" class="placeholder-box-desc" style="font-size: 1.05rem; max-width: 400px; margin: 8px 0;"></div>
+            <div class="placeholder-box-spec">HIGH-RESOLUTION CLIENT ASSET PENDING</div>
+          </div>
         </div>
         <div class="lightbox-footer-bar">
           <div>
@@ -881,7 +902,6 @@ function attachEventListeners(): void {
 
   // Lightbox Modal Handling
   const lightboxDialog = document.getElementById('lightbox-dialog') as HTMLDialogElement | null;
-  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
   const lightboxTitle = document.getElementById('lightbox-caption-title');
   const lightboxStyle = document.getElementById('lightbox-caption-style');
   const lightboxClose = document.getElementById('lightbox-close');
@@ -893,12 +913,12 @@ function attachEventListeners(): void {
     if (index >= STUDIO_DATA.gallery.length) index = 0;
     state.activeLightboxIndex = index;
     const item = STUDIO_DATA.gallery[index];
-    if (lightboxImg && lightboxTitle && lightboxStyle) {
-      lightboxImg.src = item.image;
-      lightboxImg.alt = `${item.title} — ${item.style}`;
-      lightboxTitle.textContent = item.title;
-      lightboxStyle.textContent = item.style;
-    }
+    const tagEl = document.getElementById('lightbox-placeholder-tag');
+    const descEl = document.getElementById('lightbox-placeholder-desc');
+    if (tagEl) tagEl.textContent = item.style;
+    if (descEl) descEl.textContent = item.title;
+    if (lightboxTitle) lightboxTitle.textContent = item.title;
+    if (lightboxStyle) lightboxStyle.textContent = item.style;
   }
 
   document.querySelectorAll('.gallery-card').forEach(card => {
