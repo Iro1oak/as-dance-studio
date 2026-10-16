@@ -108,7 +108,6 @@ function renderHero(): string {
         <div class="hero-grid">
           <div class="hero-content">
             <div class="hero-tag">
-              <span class="hero-tag-pulse" aria-hidden="true"></span>
               <span>NOW ENROLLING · KPHB STUDIO BATCHES</span>
             </div>
 
@@ -167,7 +166,7 @@ function renderHero(): string {
 // Render Choreographer Section
 function renderChoreographer(): string {
   return `
-    <section class="section choreographer-section" id="about" aria-labelledby="choreographer-title">
+    <section class="section section-light-matte choreographer-section" id="about" aria-labelledby="choreographer-title">
       <div class="container">
         <div class="choreographer-grid">
           <div class="choreographer-portrait-wrap">
@@ -223,7 +222,7 @@ function renderChoreographer(): string {
             </div>
 
             <div>
-              <button type="button" class="btn btn-primary open-booking-modal" data-style="1-on-1 with Arjun Punnani">
+              <button type="button" class="btn btn-dark open-booking-modal" data-style="1-on-1 with Arjun Punnani">
                 <span>TRAIN WITH ARJUN</span>
                 <span class="btn-icon-wrapper">→</span>
               </button>
@@ -462,7 +461,7 @@ function renderGallery(): string {
 // Render Reviews Section
 function renderReviews(): string {
   return `
-    <section class="section reviews-section" id="reviews" aria-labelledby="reviews-title">
+    <section class="section section-light-matte reviews-section" id="reviews" aria-labelledby="reviews-title">
       <div class="container">
         <div class="section-header">
           <div class="section-eyebrow">
@@ -485,7 +484,7 @@ function renderReviews(): string {
             </div>
           </div>
 
-          <a href="${STUDIO_DATA.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+          <a href="${STUDIO_DATA.mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-dark-secondary btn-sm">
             <span>VIEW ALL GOOGLE REVIEWS</span>
             <span class="btn-icon-wrapper" aria-hidden="true">↗</span>
           </a>
@@ -557,7 +556,7 @@ function renderPricing(): string {
               </div>
 
               <div>
-                <button type="button" class="btn ${tier.popular ? 'btn-primary' : 'btn-secondary'} open-booking-modal" data-style="${tier.name}" style="width: 100%;">
+                <button type="button" class="btn ${tier.popular ? 'btn-dark' : 'btn-dark-secondary'} open-booking-modal" data-style="${tier.name}" style="width: 100%;">
                   <span>${tier.ctaText}</span>
                   <span class="btn-icon-wrapper">→</span>
                 </button>
@@ -784,7 +783,7 @@ function renderFooter(): string {
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
-            <button type="submit" class="btn btn-primary" style="width: 100%;">
+            <button type="submit" class="btn btn-dark" style="width: 100%;">
               <span>SEND WHATSAPP ENQUIRY DIRECT</span>
               <span class="btn-icon-wrapper">→</span>
             </button>
@@ -807,6 +806,29 @@ function renderApp(): void {
     ${renderNavbar()}
     <main id="main-content">
       ${renderHero()}
+      <div class="editorial-ribbon" aria-hidden="true">
+        <div class="editorial-ribbon-inner">
+          <span>KPHB PHASE 9 · HYDERABAD</span>
+          <span>—</span>
+          <span>HIP HOP &amp; URBAN</span>
+          <span>—</span>
+          <span>BOLLYWOOD &amp; COMMERCIAL</span>
+          <span>—</span>
+          <span>CONTEMPORARY &amp; LYRICAL</span>
+          <span>—</span>
+          <span>1-ON-1 MASTERCLASSES</span>
+          <span>—</span>
+          <span>5.0★ VERIFIED GOOGLE RATING</span>
+          <span>—</span>
+          <span>MASTER ARJUN PUNNANI</span>
+          <span>—</span>
+          <span>KPHB PHASE 9 · HYDERABAD</span>
+          <span>—</span>
+          <span>HIP HOP &amp; URBAN</span>
+          <span>—</span>
+          <span>BOLLYWOOD &amp; COMMERCIAL</span>
+        </div>
+      </div>
       ${renderChoreographer()}
       ${renderDanceStyles()}
       ${renderPersonalTraining()}
