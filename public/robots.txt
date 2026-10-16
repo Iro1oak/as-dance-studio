@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asdancestudio.in/sitemap.xml
